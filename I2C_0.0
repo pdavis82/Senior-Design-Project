@@ -1,0 +1,26 @@
+
+#include <project.h>
+
+
+
+int main()
+{
+    CyGlobalIntEnable;      /* Enable global interrupts */
+    
+    SCB_Start();
+    
+    
+    
+    
+    for(;;)
+    {
+        
+        uint8 buffer[5]={0x81,0x80,0xAF};
+        
+        
+        SCB_I2CMasterWriteBuf(/*uint32*/ 0x78, /*uint8 pointer*/ buffer, /*uint32*/ 0x08, /*uint32*/ SCB_I2C_MODE_COMPLETE_XFER);
+        
+        while (0u == (SCB_I2CMasterStatus() & SCB_I2C_MSTAT_WR_CMPLT));
+        
+    }
+}
