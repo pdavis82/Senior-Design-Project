@@ -1,0 +1,39 @@
+
+#include <project.h>
+
+
+int main()
+{
+    int value[512];
+    uint8_t Placeholder;
+    int i=0;
+    CyGlobalIntEnable; /* Enable global interrupts. */
+    ADC_Start();
+    ADC_StartConvert();
+    
+    
+   
+       while(1)
+        {
+            while(ADC_IsEndConversion(ADC_WAIT_FOR_RESULT) == 0u);
+            value[i]=ADC_GetResult16(0u);
+            Placeholder=value[i]/4097+1;
+            
+            if(Placeholder<=4)
+            {
+                LED_1_Write(1<<Placeholder);
+            }
+            if(Placeholder>4)
+            {
+                 LED_2_Write(1<<(Placeholder-4));
+            }
+            i++;
+            if(i>10)
+            {
+                i=0;
+            }
+        
+            
+        }
+     
+}
